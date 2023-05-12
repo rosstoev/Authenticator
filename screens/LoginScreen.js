@@ -1,9 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import Button from "../components/ui/Button";
-import FlatButton from "../components/ui/FlatButton";
-import IconButton from "../components/ui/IconButton";
-import { Colors } from "../constants/styles";
+import Input from "../components/ui/Input";
 
 function LoginScreen() {
   function buttonHandler() {}
@@ -11,6 +8,7 @@ function LoginScreen() {
   return (
     <View>
       <Text>This is login screen</Text>
+      
     </View>
   );
 }
