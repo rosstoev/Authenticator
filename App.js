@@ -6,11 +6,23 @@ import SignupScreen from "./screens/SingupScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 
+import { Colors } from "./constants/styles";
+
 const Stack = createNativeStackNavigator();
+
+const navigationStyle = {
+  headerStyle: {
+    backgroundColor: Colors.primary500,
+  },
+  headerTintColor: "#ffffff",
+  contentStyle: {
+    backgroundColor: Colors.primary100,
+  },
+};
 
 function AuthenticationStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={navigationStyle}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>
@@ -19,7 +31,7 @@ function AuthenticationStack() {
 
 function AuthenticatedStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={navigationStyle}>
       <Stack.Screen name="Home" component={WelcomeScreen} />
     </Stack.Navigator>
   );
@@ -27,10 +39,13 @@ function AuthenticatedStack() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AuthenticationStack />
-      {/* <AuthenticatedStack /> */}
-    </NavigationContainer>
+    <>
+      <StatusBar style="light" />
+      <NavigationContainer>
+        <AuthenticationStack />
+        {/* <AuthenticatedStack /> */}
+      </NavigationContainer>
+    </>
   );
 }
 
