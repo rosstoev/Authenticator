@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import Input from "../components/ui/Input";
+import { Colors } from "../constants/styles";
+import LoginForm from "../components/form/LoginForm";
 
 function LoginScreen() {
-  function buttonHandler() {}
 
   return (
-    <View>
-      <Text>This is login screen</Text>
-      
+    <View style={styles.screenContainer}>
+      <Text style={styles.title}>Login</Text>
+      <LoginForm />
     </View>
   );
 }
@@ -16,5 +16,27 @@ function LoginScreen() {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-
+  screenContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    backgroundColor: Colors.secondary500,
+    marginTop: 60,
+    paddingVertical: 20,
+    marginHorizontal: 30,
+    borderColor: Colors.secondary100,
+    borderWidth: 4,
+    borderRadius: 5,
+    elevation: 2,
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.35,
+    shadowRadius: 4,
+  },
+  title: {
+    color: Colors.primary500,
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 6
+  }
 });
