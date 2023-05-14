@@ -12,7 +12,6 @@ function Input({ labelText, value, onChange, isPassword, isInvalid }) {
         onChangeText={onChange}
         autoComplete="off"
         secureTextEntry={isPassword}
-        underlineColorAndroid={false}
         autoCorrect={false}
       />
     </View>

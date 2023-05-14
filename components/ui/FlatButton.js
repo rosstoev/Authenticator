@@ -18,6 +18,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     text: {
-        color: Colors.secondary100
+        color: Colors.primary500
     }
 })

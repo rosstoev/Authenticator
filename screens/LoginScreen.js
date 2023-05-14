@@ -2,14 +2,20 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { Colors } from "../constants/styles";
 import LoginForm from "../components/form/LoginForm";
+import FlatButton from "../components/ui/FlatButton";
+import AuthView from "../components/ui/AuthView";
 
-function LoginScreen() {
+function LoginScreen({navigation}) {
+
+  function signupPressHandler(){
+      navigation.navigate('Signup');
+  }
 
   return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.title}>Login</Text>
-      <LoginForm />
-    </View>
+    <AuthView title="Login">
+        <LoginForm />
+        <FlatButton text="Signup" onPress={signupPressHandler}/>
+    </AuthView>
   );
 }
 
