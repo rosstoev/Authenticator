@@ -1,7 +1,11 @@
 import { Alert, StyleSheet, View } from "react-native";
 import Input from "../ui/Input";
-import { useState } from "react";
+import { useState, useContext } from "react";
+
 import Button from "../ui/Button";
+import { signup } from "../../utils/http";
+import { AuthenticationContext } from "../../storage/authenticationContext";
+import { useNavigation } from "@react-navigation/native";
 
 function SignupForm() {
   const [email, setEmail] = useState("");
@@ -12,8 +16,10 @@ function SignupForm() {
     password: false,
     confirmPassword: false,
   });
+  const authenticationContext = useContext(AuthenticationContext);
+  const navigation = useNavigation();
 
-  function onSubmit() {
+  async function onSubmit() {
     email.trim();
     password.trim();
     confirmPassword.trim();
@@ -30,7 +36,21 @@ function SignupForm() {
 
     if (!isValidEmail || !isValidPassword || !isValidConfirmPassword) {
       Alert.alert('invalid input', 'Please check your entered credentials.')
+      return;
     }
+
+    try {
+      let result = await signup(email, password);
+      authenticationContext.login(result.email, result.idToken);
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      navigation.replace('Home');
+    } catch (error) {
+      Alert.alert('Something went wrong', error.message)
+      return;
+    }
+    
   }
 
   return (

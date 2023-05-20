@@ -1,7 +1,10 @@
 import { Alert, StyleSheet, View } from "react-native";
 import Input from "../ui/Input";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../ui/Button";
+import { signin } from "../../utils/http";
+import { AuthenticationContext } from "../../storage/authenticationContext";
+import { useNavigation } from "@react-navigation/native";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -10,8 +13,10 @@ function LoginForm() {
     email: false,
     password: false,
   });
+  const authenticationContext = useContext(AuthenticationContext);
+  const navigation = useNavigation();
 
-  function onSubmit() {
+  async function onSubmit() {
     email.trim();
     password.trim();
 
@@ -25,6 +30,17 @@ function LoginForm() {
 
     if (!emailIsValid || !passwordIsValid) {
         Alert.alert('invalid input', 'Please check your entered credentials.');
+        return;
+    }
+
+    try {
+      const result = await signin(email, password);
+      authenticationContext.login(result.email, result.idToken);
+      setEmail("");
+      setPassword("");
+    } catch(error) {
+      Alert.alert('Invalid credentials', 'No user with those credentials')
+      return;
     }
   }
 

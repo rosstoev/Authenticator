@@ -7,6 +7,10 @@ import WelcomeScreen from "./screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 
 import { Colors } from "./constants/styles";
+import AuthenticationContextProvider, {
+  AuthenticationContext,
+} from "./storage/authenticationContext";
+import { useContext } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,14 +41,26 @@ function AuthenticatedStack() {
   );
 }
 
+function Navigation() {
+  const authenticationContext = useContext(AuthenticationContext);
+  const user = authenticationContext.user;
+  if (user) {
+    return <AuthenticatedStack />;
+  } else {
+    return <AuthenticationStack />;
+  }
+}
+
 export default function App() {
+
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <AuthenticationStack />
-        {/* <AuthenticatedStack /> */}
-      </NavigationContainer>
+      <AuthenticationContextProvider>
+        <NavigationContainer>
+          <Navigation />
+        </NavigationContainer>
+      </AuthenticationContextProvider>
     </>
   );
 }
