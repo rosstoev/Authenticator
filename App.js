@@ -5,12 +5,13 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SingupScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { Colors } from "./constants/styles";
 import AuthenticationContextProvider, {
   AuthenticationContext,
 } from "./storage/authenticationContext";
-import { useContext } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,15 +45,31 @@ function AuthenticatedStack() {
 function Navigation() {
   const authenticationContext = useContext(AuthenticationContext);
   const user = authenticationContext.user;
-  if (user) {
-    return <AuthenticatedStack />;
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const result = await AsyncStorage.getItem("user");
+      if (result) {
+        authenticationContext.login(result.email, result.token);
+      }
+    }
+    fetchUser();
+    setIsLoading(false);
+  }, [isLoading]);
+
+  if(isLoading) {
+    return <View><Text>Loading....</Text></View>
   } else {
-    return <AuthenticationStack />;
+    if (user) {
+      return <AuthenticatedStack />;
+    } else {
+      return <AuthenticationStack />;
+    }
   }
 }
 
 export default function App() {
-
   return (
     <>
       <StatusBar style="light" />
